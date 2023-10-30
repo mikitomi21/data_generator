@@ -12,8 +12,8 @@ NUMBER_OF_STREETS = 200
 NUMBER_OF_STREETS2 = 20
 NUMBER_OF_EVENTS = 100
 NUMBER_OF_EVENTS2 = 10
-MIN_NUMBER_OF_STREETS = 20
-MAX_NUMBER_OF_STREETS = 40
+MIN_NUMBER_OF_STREETS = 10
+MAX_NUMBER_OF_STREETS = 30
 
 START_DATE = datetime(2010, 1, 1)
 MIDDLE_DATE = datetime(2015, 1, 1)
@@ -413,25 +413,22 @@ with open("Przynaleznosc_do_trasy.bulk", "w") as f:
     pass
 
 with open("Przynaleznosc_do_trasy.bulk", "a") as f:
-    i = 1
-    for _ in range(NUMBER_OF_STREETS):
-        number_of_cars = [1, 2, 3]
-        for trasa in trasy:
-            cars = random.choice(number_of_cars)
-            for _ in range(cars):
-                number_of_streets = random.randint(
-                    MIN_NUMBER_OF_STREETS, MAX_NUMBER_OF_STREETS
-                )
-                tab_of_streets = []
-                while len(tab_of_streets) < number_of_streets:
-                    droga = random.choice(drogi)
-                    if (droga.nazwa, droga.miejscowosc) not in tab_of_streets:
-                        tab_of_streets.append((droga.nazwa, droga.miejscowosc))
-                        przy_do_trasy = PrzyDoTrasy(
-                            trasa.id, droga.nazwa, droga.miejscowosc
-                        )
-                        f.write(przy_do_trasy.__str__() + "\n")
-                        i += 1
+    number_of_cars = [1, 2, 3]
+    for trasa in trasy:
+        cars = random.choice(number_of_cars)
+        for car in range(cars):
+            number_of_streets = random.randint(
+                MIN_NUMBER_OF_STREETS, MAX_NUMBER_OF_STREETS
+            )
+            tab_of_streets = []
+            while len(tab_of_streets) < number_of_streets:
+                droga = random.choice(drogi)
+                if (droga.nazwa, droga.miejscowosc) not in tab_of_streets:
+                    tab_of_streets.append((droga.nazwa, droga.miejscowosc))
+                    przy_do_trasy = PrzyDoTrasy(
+                        trasa.id, droga.nazwa, droga.miejscowosc
+                    )
+                    f.write(przy_do_trasy.__str__() + "\n")
 
 
 with open("Przy_do_tras2.bulk", "w") as f:
