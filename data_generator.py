@@ -382,8 +382,8 @@ with open("Trasy2.bulk", "w") as f:
 
 with open("Trasy2.bulk", "a") as f:
     number_of_cars = [1, 2, 3]
-    j = 1
-    for i in range(NUMBER_OF_STREETS):
+    j = max(trasa.id for trasa in trasy)+1
+    for i in range(NUMBER_OF_STREETS, NUMBER_OF_STREETS2+NUMBER_OF_STREETS):
         akcja = random.choice(akcje)
         zespol = random.choice(zespoly)
         pesele_kierowcow = [kierowca.pesel for kierowca in kierowcy]
@@ -414,7 +414,6 @@ with open("Trasy2.bulk", "a") as f:
                         numer_prawo_jazdy,
                     )
                     j += 1
-                    trasy.append(trasa)
                     trasy2.append(trasa)
                     send_team.append((zespol.id, numer_prawo_jazdy))
                     f.write(trasa.__str__() + "\n")
@@ -429,9 +428,7 @@ with open("Przynaleznosc_do_trasy.bulk", "a") as f:
             MIN_NUMBER_OF_STREETS, MAX_NUMBER_OF_STREETS
         )
         tab_of_streets = []
-        j = 0
-        while j < number_of_streets:
-            j+=1
+        while len(tab_of_streets) < number_of_streets:
             droga = random.choice(drogi)
             if (droga.nazwa, droga.miejscowosc) not in tab_of_streets:
                 tab_of_streets.append((droga.nazwa, droga.miejscowosc))
@@ -444,25 +441,19 @@ with open("Przy_do_tras2.bulk", "w") as f:
     pass
 
 with open("Przy_do_tras2.bulk", "a") as f:
-    i = 1
-    for _ in range(NUMBER_OF_STREETS2):
-        number_of_cars = [1, 2, 3]
-        for trasa in trasy2:
-            cars = random.choice(number_of_cars)
-            for _ in range(cars):
-                number_of_streets = random.randint(
-                    MIN_NUMBER_OF_STREETS, MAX_NUMBER_OF_STREETS
+    for trasa in trasy2:
+        number_of_streets = random.randint(
+            MIN_NUMBER_OF_STREETS, MAX_NUMBER_OF_STREETS
+        )
+        tab_of_streets = []
+        while len(tab_of_streets) < number_of_streets:
+            droga = random.choice(drogi)
+            if (droga.nazwa, droga.miejscowosc) not in tab_of_streets:
+                tab_of_streets.append((droga.nazwa, droga.miejscowosc))
+                przy_do_trasy = PrzyDoTrasy(
+                    trasa.id, droga.nazwa, droga.miejscowosc
                 )
-                tab_of_streets = []
-                while len(tab_of_streets) < number_of_streets:
-                    droga = random.choice(drogi)
-                    if droga not in tab_of_streets:
-                        tab_of_streets.append(droga)
-                        przy_do_trasy = PrzyDoTrasy(
-                            trasa.id, droga.nazwa, droga.miejscowosc
-                        )
-                        f.write(przy_do_trasy.__str__() + "\n")
-                        i += 1
+                f.write(przy_do_trasy.__str__() + "\n")
 
 with open("Pojazdy.csv", "w") as f:
     pass
