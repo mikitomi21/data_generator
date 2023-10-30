@@ -429,7 +429,9 @@ with open("Przynaleznosc_do_trasy.bulk", "a") as f:
             MIN_NUMBER_OF_STREETS, MAX_NUMBER_OF_STREETS
         )
         tab_of_streets = []
-        while len(tab_of_streets) < number_of_streets:
+        j = 0
+        while j < number_of_streets:
+            j+=1
             droga = random.choice(drogi)
             if (droga.nazwa, droga.miejscowosc) not in tab_of_streets:
                 tab_of_streets.append((droga.nazwa, droga.miejscowosc))
