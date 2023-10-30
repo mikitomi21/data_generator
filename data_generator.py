@@ -381,37 +381,43 @@ with open("Trasy2.bulk", "w") as f:
     pass
 
 with open("Trasy2.bulk", "a") as f:
-    for i in range(NUMBER_OF_STREETS, NUMBER_OF_STREETS2 + NUMBER_OF_STREETS):
-        akcja = random.choice(akcje2)
+    number_of_cars = [1, 2, 3]
+    j = 1
+    for i in range(NUMBER_OF_STREETS):
+        akcja = random.choice(akcje)
         zespol = random.choice(zespoly)
         pesele_kierowcow = [kierowca.pesel for kierowca in kierowcy]
         trasa = None
-        for polaczenia in przy_do_zespolu:
-            if (
-                polaczenia.id_zespolu == zespol.id
-                and polaczenia.pesel_pracownika in pesele_kierowcow
-            ):
-                numer_prawo_jazdy = next(
-                    (
-                        kierowca.numer_prawa_jazdy
-                        for kierowca in kierowcy
-                        if kierowca.pesel == polaczenia.pesel_pracownika
-                    ),
-                    "",
-                )
-                trasa = Trasa(
-                    i + 1,
-                    akcja.data_wez,
-                    akcja.nr_wezwania,
-                    zespol.id,
-                    numer_prawo_jazdy,
-                )
-                trasy2.append(trasa)
-                break
-        if trasa is None:
-            i -= 1
-            continue
-        f.write(trasa.__str__() + "\n")
+        cars = random.choice(number_of_cars)
+        send_team = []
+        for car in range(cars):
+            for polaczenia in przy_do_zespolu:
+                if (
+                        polaczenia.id_zespolu == zespol.id
+                        and polaczenia.pesel_pracownika in pesele_kierowcow
+                        and (polaczenia.id_zespolu not in [i[0] for i in send_team]
+                             or polaczenia.pesel_pracownika not in [i[1] for i in send_team])
+                ):
+                    numer_prawo_jazdy = next(
+                        (
+                            kierowca.numer_prawa_jazdy
+                            for kierowca in kierowcy
+                            if kierowca.pesel == polaczenia.pesel_pracownika
+                        ),
+                        "",
+                    )
+                    trasa = Trasa(
+                        j,
+                        akcja.data_wez,
+                        akcja.nr_wezwania,
+                        zespol.id,
+                        numer_prawo_jazdy,
+                    )
+                    j += 1
+                    trasy.append(trasa)
+                    trasy2.append(trasa)
+                    send_team.append((zespol.id, numer_prawo_jazdy))
+                    f.write(trasa.__str__() + "\n")
 
 
 with open("Przynaleznosc_do_trasy.bulk", "w") as f:
