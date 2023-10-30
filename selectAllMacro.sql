@@ -1,0 +1,2 @@
+USE AKCJE_STRAZY_POZARNEJ
+exec sp_MSforeachtable "SELECT * FROM ?";

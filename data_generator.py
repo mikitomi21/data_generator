@@ -6,14 +6,14 @@ from unidecode import unidecode
 import os
 import csv
 
-NUMBER_OF_EMPLOYEES = 100
-NUMBER_OF_BUILDINGS = 5
-NUMBER_OF_STREETS = 200
-NUMBER_OF_STREETS2 = 20
-NUMBER_OF_EVENTS = 100
+NUMBER_OF_EMPLOYEES = 15
+NUMBER_OF_BUILDINGS = 3
+NUMBER_OF_STREETS = 50
+NUMBER_OF_STREETS2 = 10
+NUMBER_OF_EVENTS = 30
 NUMBER_OF_EVENTS2 = 10
 MIN_NUMBER_OF_STREETS = 10
-MAX_NUMBER_OF_STREETS = 30
+MAX_NUMBER_OF_STREETS = 20
 
 START_DATE = datetime(2010, 1, 1)
 MIDDLE_DATE = datetime(2015, 1, 1)
@@ -219,10 +219,10 @@ class Pojazd:
 
 
 pracownicy = []
-with open("Pracownicy.bulk", "w") as f:
+with open("Strazacy.bulk", "w") as f:
     pass
 
-with open("Pracownicy.bulk", "a") as f:
+with open("Strazacy.bulk", "a") as f:
     for _ in range(NUMBER_OF_EMPLOYEES):
         pracownik = Pracownik()
         pracownicy.append(pracownik)
