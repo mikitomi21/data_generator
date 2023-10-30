@@ -4,6 +4,7 @@ from faker import Faker
 import random
 from unidecode import unidecode
 import os
+import csv
 
 NUMBER_OF_EMPLOYEES = 100
 NUMBER_OF_BUILDINGS = 5
