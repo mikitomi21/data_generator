@@ -153,7 +153,7 @@ class Trasa:
         return self.data_roz + timedelta(seconds=time_of_event)
 
     def __str__(self) -> str:
-        return f"{self.id}{SEP}{self.data_roz}{SEP}{self.data_zak}{SEP}{self.numer_rej_pojazdu}{SEP}{self.dlugosc}{SEP}{self.kierowca}{SEP}{self.id_zespolu}"
+        return f"{self.id}{SEP}{self.data_roz}{SEP}{self.data_zak}{SEP}{self.numer_rej_pojazdu}{SEP}{self.dlugosc}{SEP}{self.akcja}{SEP}{self.kierowca}{SEP}{self.id_zespolu}"
 
 
 class PrzyDoTrasy:
@@ -348,7 +348,6 @@ with open("Trasy.bulk", "a") as f:
         cars = random.choice(number_of_cars)
         send_team = []
         for car in range(cars):
-            print(send_team)
             for polaczenia in przy_do_zespolu:
                 if (
                     polaczenia.id_zespolu == zespol.id
