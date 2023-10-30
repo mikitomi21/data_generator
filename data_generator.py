@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from faker import Faker
 import random
 from unidecode import unidecode
+import os
 
 NUMBER_OF_EMPLOYEES = 100
 NUMBER_OF_BUILDINGS = 5
@@ -21,6 +22,7 @@ fake = Faker('pl_PL')
 
 SEP = '|'
 
+os.chdir("bulks")
 
 class Pracownik:
     def __init__(self) -> None:
@@ -88,25 +90,26 @@ class Remiza:
 
 
 class Zespol:
-    def __init__(self, id_zespolu, id_remizy) -> None:
+    def __init__(self, id_zespolu, id_remizy, miejscowosc) -> None:
         self.id = id_zespolu
         self.id_remizy = id_remizy
+        self.miejscowosc = miejscowosc
 
     def __str__(self) -> str:
         return str(self.id)
 
     def __str__(self) -> str:
-        return f"{self.id}{SEP}{self.id_remizy}"
+        return f"{self.id}{SEP}{self.id_remizy}{SEP}{self.miejscowosc}"
 
 
 class PrzyDoZespolu:
     def __init__(self, id_zespolu, id_remizy, pesel_pracownika) -> None:
         self.id_zespolu = id_zespolu
-        self.id_remizy = id_remizy
+        #self.id_remizy = id_remizy
         self.pesel_pracownika = pesel_pracownika
 
     def __str__(self) -> str:
-        return f"{self.id_zespolu}{SEP}{self.id_remizy}{SEP}{self.pesel_pracownika}"
+        return f"{self.id_zespolu}{SEP}{self.pesel_pracownika}"
 
 
 class Droga:
@@ -142,7 +145,7 @@ class Trasa:
         return self.data_roz + timedelta(seconds=time_of_event)
 
     def __str__(self) -> str:
-        return f"{self.id}{SEP}{self.data_roz}{SEP}{self.data_zak}{SEP}{self.numer_rej_pojazdu}{SEP}{self.dlugosc}{SEP}{self.id_zespolu}"
+        return f"{self.id}{SEP}{self.data_roz}{SEP}{self.data_zak}{SEP}{self.numer_rej_pojazdu}{SEP}{self.dlugosc}{SEP}{self.kierowca}{SEP}{self.id_zespolu}"
 
 
 class PrzyDoTrasy:
@@ -170,30 +173,30 @@ class Akcja:
 
 
 pracownicy = []
-with open('pracownicy.bulk', 'w') as f:
+with open('Pracownicy.bulk', 'w') as f:
     pass
 
-with open('pracownicy.bulk', 'a') as f:
+with open('Pracownicy.bulk', 'a') as f:
     for _ in range(NUMBER_OF_EMPLOYEES):
         pracownik = Pracownik()
         pracownicy.append(pracownik)
         f.write(pracownik.__str__() + '\n')
 
 remizy = []
-with open('remizy.bulk', 'w') as f:
+with open('Remizy.bulk', 'w') as f:
     pass
 
-with open('remizy.bulk', 'a') as f:
+with open('Remizy.bulk', 'a') as f:
     for i in range(NUMBER_OF_BUILDINGS):
         remiza = Remiza(i + 1)
         remizy.append(remiza)
         f.write(remiza.__str__() + '\n')
 
 przy_do_zespolu = []
-with open('przy_do_zespolu.bulk', 'w') as f:
+with open('Przynaleznosc_do_zespolu.bulk', 'w') as f:
     pass
 
-with open('przy_do_zespolu.bulk', 'a') as f:
+with open('Przynaleznosc_do_zespolu.bulk', 'a') as f:
     sizes_of_team = [4, 5, 6]
     size_of_team = None
     number_emp_in_team = 0
@@ -209,22 +212,22 @@ with open('przy_do_zespolu.bulk', 'a') as f:
         f.write(zespol.__str__() + '\n')
 
 zespoly = []
-with open('zespoly.bulk', 'w') as f:
+with open('Zespoly.bulk', 'w') as f:
     pass
 
-with open('zespoly.bulk', 'a') as f:
+with open('Zespoly.bulk', 'a') as f:
     for i in range(przy_do_zespolu[-1].id_zespolu):
-        zespol = Zespol(i + 1, random.choice(remizy).numer)
+        zespol = Zespol(i + 1, random.choice(remizy).numer, random.choice(["Gdansk", "Gdynia", "Sopot", "Rumia", "Reda", "Wejherowo", "Kartuzy"]))
         zespoly.append(zespol)
         f.write(zespol.__str__() + '\n')
 
 kierowcy = []
-with open('kierowcy.bulk', 'w') as f:
+with open('Kierowcy.bulk', 'w') as f:
     pass
 
 old_team = 1
 last_driver = ""
-with open('kierowcy.bulk', 'a') as f:
+with open('Kierowcy.bulk', 'a') as f:
     is_driver = False
     for zespol in przy_do_zespolu:
         if zespol.pesel_pracownika in kierowcy:
@@ -240,10 +243,10 @@ with open('kierowcy.bulk', 'a') as f:
         last_driver = zespol.pesel_pracownika
 
 drogi = []
-with open('drogi.bulk', 'w') as f:
+with open('Drogi.bulk', 'w') as f:
     pass
 
-with open('drogi.bulk', 'a') as f:
+with open('Drogi.bulk', 'a') as f:
     for _ in range(NUMBER_OF_STREETS):
         droga = Droga()
         drogi.append(droga)
@@ -251,10 +254,10 @@ with open('drogi.bulk', 'a') as f:
 
 
 akcje = []
-with open('akcje.bulk', 'w') as f:
+with open('Akcje.bulk', 'w') as f:
     pass
 
-with open('akcje.bulk', 'a') as f:
+with open('Akcje.bulk', 'a') as f:
     for i in range(NUMBER_OF_EVENTS):
         droga = random.choice(drogi)
         akcja = Akcja(i + 1, droga.nazwa, droga.miejscowosc, START_DATE, MIDDLE_DATE)
@@ -275,10 +278,10 @@ with open('akcje2.bulk', 'a') as f:
 
 
 trasy = []
-with open('trasy.bulk', 'w') as f:
+with open('Trasy.bulk', 'w') as f:
     pass
 
-with open('trasy.bulk', 'a') as f:
+with open('Trasy.bulk', 'a') as f:
     for i in range(NUMBER_OF_STREETS):
         akcja = random.choice(akcje)
         zespol = random.choice(zespoly)
@@ -286,7 +289,9 @@ with open('trasy.bulk', 'a') as f:
         trasa = None
         for polaczenia in przy_do_zespolu:
             if polaczenia.id_zespolu == zespol.id and polaczenia.pesel_pracownika in pesele_kierowcow:
-                trasa = Trasa(i+1, akcja.data_wez, akcja.nr_wezwania, zespol.id, polaczenia.pesel_pracownika)
+                numer_prawo_jazdy = next((kierowca.numer_prawa_jazdy for kierowca in kierowcy if
+                                          kierowca.pesel == polaczenia.pesel_pracownika), "")
+                trasa = Trasa(i+1, akcja.data_wez, akcja.nr_wezwania, zespol.id, numer_prawo_jazdy)
                 trasy.append(trasa)
                 break
         if trasa is None:
@@ -307,7 +312,9 @@ with open('trasy2.bulk', 'a') as f:
         trasa = None
         for polaczenia in przy_do_zespolu:
             if polaczenia.id_zespolu == zespol.id and polaczenia.pesel_pracownika in pesele_kierowcow:
-                trasa = Trasa(i+1, akcja.data_wez, akcja.nr_wezwania, zespol.id, polaczenia.pesel_pracownika)
+                numer_prawo_jazdy = next((kierowca.numer_prawa_jazdy for kierowca in kierowcy if
+                                          kierowca.pesel == polaczenia.pesel_pracownika), "")
+                trasa = Trasa(i + 1, akcja.data_wez, akcja.nr_wezwania, zespol.id, numer_prawo_jazdy)
                 trasy2.append(trasa)
                 break
         if trasa is None:
@@ -316,10 +323,10 @@ with open('trasy2.bulk', 'a') as f:
         f.write(trasa.__str__() + '\n')
 
 
-with open('przy_do_tras.bulk', 'w') as f:
+with open('Przynaleznosc_do_trasy.bulk', 'w') as f:
     pass
 
-with open('przy_do_tras.bulk', 'a') as f:
+with open('Przynaleznosc_do_trasy.bulk', 'a') as f:
     i = 1
     for _ in range(NUMBER_OF_STREETS):
         number_of_cars = [1,2,3]
