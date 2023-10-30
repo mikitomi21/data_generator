@@ -372,10 +372,10 @@ with open("Trasy.bulk", "a") as f:
 
 
 trasy2 = []
-with open("trasy2.bulk", "w") as f:
+with open("Trasy2.bulk", "w") as f:
     pass
 
-with open("trasy2.bulk", "a") as f:
+with open("Trasy2.bulk", "a") as f:
     for i in range(NUMBER_OF_STREETS, NUMBER_OF_STREETS2 + NUMBER_OF_STREETS):
         akcja = random.choice(akcje2)
         zespol = random.choice(zespoly)
@@ -425,8 +425,8 @@ with open("Przynaleznosc_do_trasy.bulk", "a") as f:
                 tab_of_streets = []
                 while len(tab_of_streets) < number_of_streets:
                     droga = random.choice(drogi)
-                    if droga not in tab_of_streets:
-                        tab_of_streets.append(droga)
+                    if (droga.nazwa, droga.miejscowosc) not in tab_of_streets:
+                        tab_of_streets.append((droga.nazwa, droga.miejscowosc))
                         przy_do_trasy = PrzyDoTrasy(
                             trasa.id, droga.nazwa, droga.miejscowosc
                         )
@@ -434,10 +434,10 @@ with open("Przynaleznosc_do_trasy.bulk", "a") as f:
                         i += 1
 
 
-with open("przy_do_tras2.bulk", "w") as f:
+with open("Przy_do_tras2.bulk", "w") as f:
     pass
 
-with open("przy_do_tras2.bulk", "a") as f:
+with open("Przy_do_tras2.bulk", "a") as f:
     i = 1
     for _ in range(NUMBER_OF_STREETS2):
         number_of_cars = [1, 2, 3]
@@ -458,10 +458,10 @@ with open("przy_do_tras2.bulk", "a") as f:
                         f.write(przy_do_trasy.__str__() + "\n")
                         i += 1
 
-with open("pojazdy.csv", "w") as f:
+with open("Pojazdy.csv", "w") as f:
     pass
 
-with open("pojazdy.csv", "a") as f:
+with open("Pojazdy.csv", "a") as f:
     writer = csv.writer(f)
     headers = [
         "Numer rejestracyjny pojazdu",
