@@ -418,22 +418,19 @@ with open("Przynaleznosc_do_trasy.bulk", "w") as f:
     pass
 
 with open("Przynaleznosc_do_trasy.bulk", "a") as f:
-    number_of_cars = [1, 2, 3]
     for trasa in trasy:
-        cars = random.choice(number_of_cars)
-        for car in range(cars):
-            number_of_streets = random.randint(
-                MIN_NUMBER_OF_STREETS, MAX_NUMBER_OF_STREETS
-            )
-            tab_of_streets = []
-            while len(tab_of_streets) < number_of_streets:
-                droga = random.choice(drogi)
-                if (droga.nazwa, droga.miejscowosc) not in tab_of_streets:
-                    tab_of_streets.append((droga.nazwa, droga.miejscowosc))
-                    przy_do_trasy = PrzyDoTrasy(
-                        trasa.id, droga.nazwa, droga.miejscowosc
-                    )
-                    f.write(przy_do_trasy.__str__() + "\n")
+        number_of_streets = random.randint(
+            MIN_NUMBER_OF_STREETS, MAX_NUMBER_OF_STREETS
+        )
+        tab_of_streets = []
+        while len(tab_of_streets) < number_of_streets:
+            droga = random.choice(drogi)
+            if (droga.nazwa, droga.miejscowosc) not in tab_of_streets:
+                tab_of_streets.append((droga.nazwa, droga.miejscowosc))
+                przy_do_trasy = PrzyDoTrasy(
+                    trasa.id, droga.nazwa, droga.miejscowosc
+                )
+                f.write(przy_do_trasy.__str__() + "\n")
 
 with open("Przy_do_tras2.bulk", "w") as f:
     pass
