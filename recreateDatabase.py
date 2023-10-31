@@ -1,6 +1,6 @@
 import pyodbc
 
-database_connection_string = 'DRIVER={SQL Server Native Client 11.0};SERVER=EWIK;DATABASE=AKCJE_STRAZY_POZARNEJ;Trusted_Connection=yes;'
+database_connection_string = 'DRIVER={SQL Server Native Client 11.0};SERVER=L340;DATABASE=AKCJE_STRAZY_POZARNEJ;Trusted_Connection=yes;'
 connection = pyodbc.connect(database_connection_string)
 db_cursor = connection.cursor()
 

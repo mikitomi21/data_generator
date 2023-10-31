@@ -202,6 +202,8 @@ class Pojazd:
         )
         self.ilosc_drzwi = fake.random_element(elements=(2, 4, 5))
 
+    def set_rok(self):
+        self.rok=2025
     def to_tab(self):
         return [
             self.nr_wezwania,
@@ -455,6 +457,7 @@ with open("Przy_do_tras2.bulk", "a") as f:
                 )
                 f.write(przy_do_trasy.__str__() + "\n")
 
+pojazdy = []
 with open("Pojazdy.csv", "w") as f:
     pass
 
@@ -483,4 +486,33 @@ with open("Pojazdy.csv", "a") as f:
     )
     for pojazdId in pojazdy:
         pojazd = Pojazd(pojazdId)
+        pojazdy.append(pojazd)
         writer.writerow(pojazd.to_tab())
+
+pojazdy_ez = pojazdy[-1]
+pojazdy = pojazdy[:-1]
+with open("Pojazdy2.csv", "w") as f:
+    pass
+
+with open("Pojazdy2.csv", "a") as f:
+    writer = csv.writer(f)
+    headers = [
+        "Numer rejestracyjny pojazdu",
+        "Marka pojazdu",
+        "Pojemnosc skokowa silnika",
+        "Moc silnika",
+        "Rok produkcji",
+        "Masa wlasna",
+        "Dopuszczalna masa calkowita",
+        "Rozstaw osi",
+        "Wysokosc",
+        "Pojemnosc zbiornika wody",
+        "Ilosc drzwi",
+    ]
+    writer.writerow(headers)
+    for pojazd in pojazdy:
+        new_pojazd = Pojazd(pojazd.nr_wezwania)
+        writer.writerow(pojazd.to_tab())
+    poj = pojazdy_ez
+    poj.set_rok()
+    writer.writerow(poj.to_tab())
