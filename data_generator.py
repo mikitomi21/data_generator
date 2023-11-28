@@ -457,6 +457,7 @@ with open("Przy_do_tras2.bulk", "a") as f:
                 )
                 f.write(przy_do_trasy.__str__() + "\n")
 
+print("siema1")
 pojazdy = []
 with open("Pojazdy.csv", "w") as f:
     pass
@@ -478,17 +479,19 @@ with open("Pojazdy.csv", "a") as f:
     ]
     writer.writerow(headers)
 
-    pojazdy = list(
+    pojazdy_ = list(
         set(
             [trasa.numer_rej_pojazdu for trasa in trasy]
             + [trasa.numer_rej_pojazdu for trasa in trasy2]
         )
     )
-    for pojazdId in pojazdy:
+    for pojazdId in pojazdy_:
+        print("siema")
         pojazd = Pojazd(pojazdId)
         pojazdy.append(pojazd)
         writer.writerow(pojazd.to_tab())
 
+print("siema2")
 pojazdy_ez = pojazdy[-1]
 pojazdy = pojazdy[:-1]
 with open("Pojazdy2.csv", "w") as f:
